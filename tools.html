@@ -1,0 +1,184 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Malik Danish | Tools Directory</title>
+<style>
+*{box-sizing:border-box}
+body{margin:0;font-family:Arial,sans-serif;background:#0b1020;color:#f4f7ff}
+header{text-align:center;padding:35px 15px;background:linear-gradient(135deg,#171b3d,#092b3c)}
+h1{color:#61f4dc;margin-bottom:8px}
+p{color:#c2cbe0}
+a{color:#61f4dc;text-decoration:none}
+.home{display:inline-block;margin-top:12px;padding:10px 16px;border:1px solid #61f4dc;border-radius:9px}
+main{max-width:1100px;margin:auto;padding:22px}
+input,select{width:100%;padding:14px;margin:7px 0 15px;border-radius:10px;border:1px solid #35415e;background:#141b30;color:white;font-size:16px}
+.filters{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:14px}
+.card{background:#141b30;border:1px solid #283653;border-radius:14px;padding:18px}
+.card h3{margin:0 0 8px}
+.category{font-size:12px;color:#61f4dc}
+.open{display:inline-block;margin-top:12px;background:#61f4dc;color:#07121b;padding:10px 14px;border-radius:8px;font-weight:bold}
+footer{text-align:center;padding:25px;color:#9daac5}
+</style>
+</head>
+<body>
+<header>
+<h1>Welcome to Malik Danish</h1>
+<p>Discover useful websites, AI tools and online services</p>
+<a class="home" href="index.html">← Back to Home</a>
+</header>
+<main>
+<h2>Explore Online Tools</h2>
+<input id="search" type="search" placeholder="Search tools or websites...">
+<div class="filters">
+<select id="category">
+<option value="all">All Categories</option>
+<option>AI</option><option>Design</option><option>Photo & Video</option>
+<option>Documents & PDF</option><option>Education</option>
+<option>Coding</option><option>Downloads</option><option>Productivity</option>
+</select>
+<select id="sort">
+<option value="name">Sort by Name</option>
+</select>
+</div>
+<p id="count"></p>
+<div class="grid" id="results"></div>
+</main>
+<footer>© Malik Danish | Tools Directory</footer>
+<script>
+const tools=[
+["ChatGPT","AI","https://chatgpt.com/"],
+["Google Gemini","AI","https://gemini.google.com/"],
+["Microsoft Copilot","AI","https://copilot.microsoft.com/"],
+["Claude","AI","https://claude.ai/"],
+["Perplexity","AI","https://www.perplexity.ai/"],
+["Google AI Studio","AI","https://aistudio.google.com/"],
+["Hugging Face","AI","https://huggingface.co/"],
+["Adobe Firefly","AI","https://firefly.adobe.com/"],
+["Canva","Design","https://www.canva.com/"],
+["Adobe Express","Design","https://www.adobe.com/express/"],
+["Figma","Design","https://www.figma.com/"],
+["Photopea","Design","https://www.photopea.com/"],
+["Pixlr","Photo & Video","https://pixlr.com/"],
+["Adobe Photoshop Online","Photo & Video","https://photoshop.adobe.com/"],
+["CapCut","Photo & Video","https://www.capcut.com/"],
+["Clipchamp","Photo & Video","https://clipchamp.com/"],
+["VEED","Photo & Video","https://www.veed.io/"],
+["Kapwing","Photo & Video","https://www.kapwing.com/"],
+[" remove.bg","Photo & Video","https://www.remove.bg/"],
+["TinyPNG","Photo & Video","https://tinypng.com/"],
+["iLovePDF","Documents & PDF","https://www.ilovepdf.com/"],
+["Smallpdf","Documents & PDF","https://smallpdf.com/"],
+["PDF24 Tools","Documents & PDF","https://tools.pdf24.org/"],
+["Adobe Acrobat Online","Documents & PDF","https://www.adobe.com/acrobat/online.html"],
+["Google Docs","Productivity","https://docs.google.com/"],
+["Google Drive","Productivity","https://drive.google.com/"],
+["Notion","Productivity","https://www.notion.so/"],
+["Trello","Productivity","https://trello.com/"],
+["Grammarly","Productivity","https://www.grammarly.com/"],
+["DeepL Translator","Productivity","https://www.deepl.com/translator"],
+["Google Translate","Education","https://translate.google.com/"],
+["Khan Academy","Education","https://www.khanacademy.org/"],
+["Coursera","Education","https://www.coursera.org/"],
+["edX","Education","https://www.edx.org/"],
+["Quizlet","Education","https://quizlet.com/"],
+["W3Schools","Coding","https://www.w3schools.com/"],
+["freeCodeCamp","Coding","https://www.freecodecamp.org/"],
+["CodePen","Coding","https://codepen.io/"],
+["Replit","Coding","https://replit.com/"],
+["GitHub","Coding","https://github.com/"],
+["Stack Overflow","Coding","https://stackoverflow.com/"],
+["Visual Studio Code","Coding","https://code.visualstudio.com/"],
+["MDN Web Docs","Coding","https://developer.mozilla.org/"],
+["Google Fonts","Design","https://fonts.google.com/"],
+["Coolors","Design","https://coolors.co/"],
+["Unsplash","Design","https://unsplash.com/"],
+["Pexels","Design","https://www.pexels.com/"],
+["Pixabay","Design","https://pixabay.com/"],
+["GIMP","Photo & Video","https://www.gimp.org/"],
+["Inkscape","Design","https://inkscape.org/"],
+["Blender","Design","https://www.blender.org/"],
+["Audacity","Photo & Video","https://www.audacityteam.org/"],
+["OBS Studio","Photo & Video","https://obsproject.com/"],
+["VLC Media Player","Downloads","https://www.videolan.org/vlc/"],
+["7-Zip","Downloads","https://www.7-zip.org/"],
+["Ninite","Downloads","https://ninite.com/"],
+["FileZilla","Downloads","https://filezilla-project.org/"],
+["Internet Archive","Education","https://archive.org/"],
+["Project Gutenberg","Education","https://www.gutenberg.org/"],
+["Wikimedia Commons","Design","https://commons.wikimedia.org/"],
+["Google Trends","Productivity","https://trends.google.com/"],
+["Google Analytics","Productivity","https://analytics.google.com/"],
+["Bitly","Productivity","https://bitly.com/"],
+["QR Code Monkey","Productivity","https://www.qrcode-monkey.com/"],
+["Speedtest","Productivity","https://www.speedtest.net/"],
+["Have I Been Pwned","Productivity","https://haveibeenpwned.com/"],
+["VirusTotal","Productivity","https://www.virustotal.com/"],
+["CloudConvert","Documents & PDF","https://cloudconvert.com/"],
+["Convertio","Documents & PDF","https://convertio.co/"],
+["Online-Convert","Documents & PDF","https://www.online-convert.com/"],
+["Tinkercad","Design","https://www.tinkercad.com/"],
+["Excalidraw","Design","https://excalidraw.com/"],
+["draw.io","Design","https://app.diagrams.net/"],
+["Miro","Productivity","https://miro.com/"],
+["Airtable","Productivity","https://www.airtable.com/"],
+["Zapier","Productivity","https://zapier.com/"],
+["Make","Productivity","https://www.make.com/"],
+["WordPress","Coding","https://wordpress.com/"],
+["Blogger","Productivity","https://www.blogger.com/"],
+["Google Sites","Productivity","https://sites.google.com/"],
+["Netlify","Coding","https://www.netlify.com/"],
+["Vercel","Coding","https://vercel.com/"],
+["Supabase","Coding","https://supabase.com/"],
+["Firebase","Coding","https://firebase.google.com/"],
+["CodeSandbox","Coding","https://codesandbox.io/"],
+["JSFiddle","Coding","https://jsfiddle.net/"],
+["npm","Coding","https://www.npmjs.com/"],
+["Unsplash Source","Design","https://unsplash.com/"],
+["Twitch","Photo & Video","https://www.twitch.tv/"],
+["YouTube Studio","Photo & Video","https://studio.youtube.com/"],
+["TikTok Studio","Photo & Video","https://www.tiktok.com/"],
+["Instagram","Photo & Video","https://www.instagram.com/"],
+["Buffer","Productivity","https://buffer.com/"],
+["Later","Productivity","https://later.com/"],
+["Mailchimp","Productivity","https://mailchimp.com/"],
+["Brevo","Productivity","https://www.brevo.com/"],
+["Krita","Design","https://krita.org/"],
+["DaVinci Resolve","Photo & Video","https://www.blackmagicdesign.com/products/davinciresolve"],
+["HandBrake","Photo & Video","https://handbrake.fr/"],
+["Shotcut","Photo & Video","https://shotcut.org/"],
+["InVideo","Photo & Video","https://invideo.io/"],
+["Loom","Photo & Video","https://www.loom.com/"]
+];
+const search=document.getElementById("search");
+const category=document.getElementById("category");
+const results=document.getElementById("results");
+const count=document.getElementById("count");
+function render(){
+ const q=search.value.toLowerCase().trim();
+ const c=category.value;
+ const filtered=tools.filter(t=>
+  (t[0].toLowerCase().includes(q)||t[1].toLowerCase().includes(q)) &&
+  (c==="all"||t[1]===c)
+ ).sort((a,b)=>a[0].trim().localeCompare(b[0].trim()));
+ count.textContent=filtered.length+" websites found";
+ results.innerHTML="";
+ filtered.forEach(t=>{
+  const card=document.createElement("article");
+  card.className="card";
+  const h=document.createElement("h3");h.textContent=t[0].trim();
+  const cat=document.createElement("div");cat.className="category";cat.textContent=t[1];
+  const a=document.createElement("a");a.className="open";a.href=t[2];a.target="_blank";a.rel="noopener noreferrer";a.textContent="Open Website ↗";
+  card.append(h,cat,a);results.appendChild(card);
+ });
+}
+search.addEventListener("input",render);
+category.addEventListener("change",render);
+render();
+</script>
+</body>
+</html>
+tools.html
