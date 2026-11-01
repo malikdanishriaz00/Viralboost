@@ -1,3 +1,35 @@
+<div id="welcome-screen">
+  <h1>Welcome to Malik Danish Website</h1>
+  <button onclick="document.getElementById('welcome-screen').remove()">
+    Explore Website
+  </button>
+</div>
+
+<style>
+#welcome-screen {
+  position: fixed;
+  inset: 0;
+  z-index: 99999;
+  background: #10152f;
+  color: white;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+  font-family: Arial;
+}
+#welcome-screen h1 {
+  padding: 20px;
+}
+#welcome-screen button {
+  padding: 14px 25px;
+  background: #725cff;
+  color: white;
+  border: 0;
+  border-radius: 8px;
+}
+</style>
 <!doctype html>
 <html lang="en">
 <head>
